@@ -1,2 +1,5 @@
+[webserver]
 node1.example.com
+
+[dbserver]
 node2.example.com
