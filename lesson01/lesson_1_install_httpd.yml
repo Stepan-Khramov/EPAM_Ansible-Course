@@ -1,0 +1,36 @@
+---
+- name: playbook lesson01 install httpd
+  hosts: node1.example.com
+         node2.example.com
+  user: ansible
+  become: yes
+  become_method: sudo
+  become_user: root
+
+  tasks:
+    - name: install httpd
+      dnf:
+        name: httpd
+        state: latest
+
+    - name: copy index.html
+      copy:
+         content: Welcome to my web server
+         dest: /var/www/html/index.html
+
+    - name: fw open http
+      firewalld:
+        service: http
+        permanent: yes
+        immediate: yes
+        state: enabled
+      become: yes
+
+    - name: fw open https
+      firewalld:
+        service: https
+        permanent: yes
+        immediate: yes
+        state: enabled
+      become: yes
+...

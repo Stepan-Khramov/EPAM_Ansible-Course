@@ -1,0 +1,36 @@
+---
+- name: playbook lesson01 remove httpd
+  hosts: node1.example.com
+         node2.example.com
+  user: ansible
+  become: yes
+  become_method: sudo
+  become_user: root
+
+  tasks:
+  - name: uninstall httpd
+    dnf:
+      name: httpd
+      state: absent
+
+  - name: remove index.html
+    file:
+      dest: /var/www/html/index.html
+      state: absent
+
+  - name: fw close http
+    firewalld:
+      service: http
+      permanent: yes
+      immediate: yes
+      state: disabled
+    become: yes
+
+  - name: fw close https
+    firewalld:
+      service: https
+      permanent: yes
+      immediate: yes
+      state: disabled
+    become: yes
+...
