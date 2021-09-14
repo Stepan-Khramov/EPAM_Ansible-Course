@@ -1,16 +1,27 @@
 ---
 - name: create users
-  hosts: all
+  hosts: node[1:2].example.com
   vars_files: secret.yml
-
-- tasks:
+  become: yes
+  become_method: sudo
+  become_user: root
+        
+  tasks:
   - name: creating users
-    user: "{{ username }}"
-    password: "{{ pwhash }}"
-  
-
-
-
-
-
+    user:
+      name: "{{ item.username }}"
+      password: "{{ pwhash | password_hash('sha512') }}"
+      comment: "{{ item.username }}@example.com"
+      home: "/home/{{ item.username }}"
+    loop:
+      - username: alice
+      - username: bob
+      - username: carol
+#   - name: creating users
+#     user:
+#       name: "{{ username }}"
+#       password: "{{ pwhash | password_hash('sha512') }}"
+#       comment: "{{ username }}@example.com"
+#       home: "/home/{{ username }}"
+#     become: yes
 ...
