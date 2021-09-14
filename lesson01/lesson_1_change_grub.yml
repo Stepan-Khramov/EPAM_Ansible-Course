@@ -1,12 +1,11 @@
 ---
 - name: modifying grub
-  hosts: node1.example.com
-         node2.example.com
+  hosts: node[1:2].example.com
   user: ansible
   become: yes
   become_method: sudo
   become_user: root
 
   tasks:
-  
+
 ...
