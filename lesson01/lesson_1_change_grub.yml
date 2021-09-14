@@ -1,7 +1,6 @@
 ---
 - name: modifying grub
-  # hosts: node[1:2].example.com
-  hosts: node1.example.com
+  hosts: node[1:2].example.com
   user: ansible
   become: yes
   become_method: sudo
