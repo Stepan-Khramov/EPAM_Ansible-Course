@@ -9,10 +9,9 @@
   tasks:
   - name: change grub
     lineinfile:
-      # path: /etc/default/grub
-      path: /home/ansible/grub
+      path: /etc/default/grub
       state: present
       backrefs: yes
-      regexp: '^(GRUB_CMDLINE_LINUX.*swap rhgb quiet)'
+      regexp: '^(GRUB_CMDLINE_LINUX.*quiet)'
       line: '\1 net.ifnames=0 biosdevname=0"'   
 ...
