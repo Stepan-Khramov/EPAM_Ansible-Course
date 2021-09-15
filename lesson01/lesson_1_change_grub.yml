@@ -9,7 +9,10 @@
   tasks:
   - name: change grub
     lineinfile:
-      path: /etc/default/grub
-      regexp: '^GRUB_CMDLINE_LINUX'
-      line: 'GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet net.ifnames=0 biosdevname=0"'
+      # path: /etc/default/grub
+      path: /home/ansible/grub
+      state: present
+      backrefs: yes
+      regexp: '^(.*swap rhgb quiet)'
+      line: '\1 net.ifnames=0 biosdevname=0"'   
 ...
