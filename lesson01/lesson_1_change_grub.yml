@@ -13,5 +13,8 @@
       state: present
       backrefs: yes
       regexp: '^(GRUB_CMDLINE_LINUX.*quiet)'
-      line: '\1 net.ifnames=0 biosdevname=0"'   
+      line: '\1 net.ifnames=0 biosdevname=0"'
+  
+  - name: update grub
+    command: grub2-mkconfig -o /boot/grub2/grub.cfg
 ...
