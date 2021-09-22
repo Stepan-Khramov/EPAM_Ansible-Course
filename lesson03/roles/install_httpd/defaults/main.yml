@@ -1,0 +1,4 @@
+---
+# defaults file for install_httpd
+fw_service_to_open_1: http
+fw_service_to_open_2: ssh

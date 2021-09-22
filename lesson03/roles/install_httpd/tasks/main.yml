@@ -1,0 +1,29 @@
+---
+# tasks file for install_httpd
+- name: install httpd
+  dnf:
+    name: httpd
+    state: latest
+
+- name: copy index.html
+  copy:
+      src: index.html
+      dest: /var/www/html/
+  notify:
+    - restart_httpd
+
+- name: fw open http
+  firewalld:
+    service: http
+    permanent: yes
+    immediate: yes
+    state: enabled
+  become: yes
+
+- name: fw open https
+  firewalld:
+    service: https
+    permanent: yes
+    immediate: yes
+    state: enabled
+  become: yes
