@@ -5,6 +5,8 @@
   roles:
   - role: install_httpd
     fw_service_to_open_2: https
+  - role: install_vsftpd
+  
 
   
 ...
