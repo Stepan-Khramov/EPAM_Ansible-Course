@@ -5,12 +5,6 @@
     name: vsftpd
     state: latest
 
-- name: enable vsftpd
-  service:
-    name: vsftpd
-    enabled: yes
-    state: started
-
 - name: fw open vsftpd
   firewalld:
     service: ftp
@@ -35,17 +29,28 @@
     group: root
     mode: '0600'
 
-# - name: SELinux add rule
-#   seboolean:
-#     name: ftpd_anon_write
-#     state: yes
-#     persistent: yes
+- name: enable vsftpd
+  service:
+    name: vsftpd
+    enabled: yes
+    state: restarted
 
-- name: SELinux add rule
-  sefcontext:
-    target: '/var/ftp/pub/upload(/.*)?'
-    setype: ftpd_anon_write
-    state: present
+- name: install semanage
+  dnf:
+    name: policycoreutils-python-utils
+    state: latest
 
-- name: Apply SELinux rule
-  command: restorecon -irv /var/ftp/pub/upload
+- name: SELinux add ftpd_anon_write
+  seboolean:
+    name: ftpd_anon_write
+    state: yes
+    persistent: yes
+
+- name: SELinux add allow_ftpd_full_access
+  seboolean:
+    name: ftpd_full_access
+    state: yes
+    persistent: yes
+
+- name: Apply SELinux rules
+  command: restorecon -irv /var/ftp/pub/upload/
