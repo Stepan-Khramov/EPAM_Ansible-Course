@@ -1,2 +1,51 @@
 ---
 # tasks file for install_vsftpd
+- name: install vsftpd
+  dnf:
+    name: vsftpd
+    state: latest
+
+- name: enable vsftpd
+  service:
+    name: vsftpd
+    enabled: yes
+    state: started
+
+- name: fw open vsftpd
+  firewalld:
+    service: ftp
+    permanent: yes
+    immediate: yes
+    state: enabled
+  become: yes
+
+- name: create dir
+  file:
+    path: /var/ftp/pub/upload
+    state: directory
+    owner: ftp
+    group: ftp
+    mode: 0777
+
+- name: copy template of vsftpd cfg
+  template:
+    src: vsftpd.conf.j2
+    dest: /etc/vsftpd/vsftpd.conf
+    owner: root
+    group: root
+    mode: '0600'
+
+# - name: SELinux add rule
+#   seboolean:
+#     name: ftpd_anon_write
+#     state: yes
+#     persistent: yes
+
+- name: SELinux add rule
+  sefcontext:
+    target: '/var/ftp/pub/upload(/.*)?'
+    setype: ftpd_anon_write
+    state: present
+
+- name: Apply SELinux rule
+  command: restorecon -irv /var/ftp/pub/upload

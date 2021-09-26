@@ -1,2 +1,6 @@
 ---
 # vars file for install_vsftpd
+anon_upload_enable: 'YES'
+anon_mkdir_write_enable: 'YES'
+anonymous_enable: 'YES'
+anon_root: /var/ftp/pub/
