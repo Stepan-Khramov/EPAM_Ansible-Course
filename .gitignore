@@ -1,4 +1,0 @@
-.gitignore
-vault-pass
-ansible.cfg
-/awx
